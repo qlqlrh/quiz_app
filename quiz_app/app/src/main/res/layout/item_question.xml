@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="#F3F2DD"
     android:padding="20dp">
 
     <EditText
@@ -20,7 +21,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/option_background"
         android:layout_marginTop="20dp"
-        android:padding="10dp"
+        android:padding="15dp"
         android:hint="선택지 1 내용을 입력하세요."/>
 
     <EditText
@@ -29,7 +30,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/option_background"
         android:layout_marginTop="20dp"
-        android:padding="10dp"
+        android:padding="15dp"
         android:hint="선택지 2 내용을 입력하세요."/>
 
     <EditText
@@ -38,7 +39,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/option_background"
         android:layout_marginTop="20dp"
-        android:padding="10dp"
+        android:padding="15dp"
         android:hint="선택지 3 내용을 입력하세요."/>
 
     <EditText
@@ -47,7 +48,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/option_background"
         android:layout_marginTop="20dp"
-        android:padding="10dp"
+        android:padding="15dp"
         android:inputType="number"
         android:hint="답의 번호를 입력하세요."/>
 </LinearLayout>

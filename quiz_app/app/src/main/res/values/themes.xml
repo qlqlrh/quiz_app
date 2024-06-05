@@ -3,7 +3,12 @@
     <style name="Base.Theme.Quiz" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- 기본 색상 설정 -->
+        <item name="colorPrimary">#F3F2DD</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="strokeColor">#27272A</item>
     </style>
 
-    <style name="Theme.Quiz" parent="Base.Theme.Quiz" />
+    <style name="Theme.Quiz" parent="Base.Theme.Quiz">
+    </style>
 </resources>
