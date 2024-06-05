@@ -28,11 +28,11 @@ class CreateActivity : AppCompatActivity() {
         var id = 1
 
         // 질문 리스트 초기화
-        questionList.add(Question(id++, "질문1. ", "", "", "", 0))
-        questionList.add(Question(id++, "질문2. ", "", "", "", 0))
-        questionList.add(Question(id++, "질문3. ", "", "", "", 0))
-        questionList.add(Question(id++, "질문4. ", "", "", "", 0))
-        questionList.add(Question(id++, "질문5. ", "", "", "", 0))
+        questionList.add(Question(id++, "", "", "", "", 0))
+        questionList.add(Question(id++, "", "", "", "", 0))
+        questionList.add(Question(id++, "", "", "", "", 0))
+        questionList.add(Question(id++, "", "", "", "", 0))
+        questionList.add(Question(id++, "", "", "", "", 0))
 
         // RecyclerView 설정
         questionAdapter = QuestionAdapter(questionList)
@@ -71,7 +71,7 @@ class CreateActivity : AppCompatActivity() {
         // mainBtn 누르면 MainActivity로 이동
         binding.mainBtn.setOnClickListener {
             // CreateActivity에서 출제자 이름을 가져와서 MainActivity로 전달
-            val creatorName = binding.inputName.text.toString()
+            val creatorName = binding.creatorName.text.toString()
 
             if (creatorName.isBlank()) {
                 Toast.makeText(this, "출제자의 이름을 작성해주세요.", Toast.LENGTH_SHORT).show()
@@ -85,6 +85,26 @@ class CreateActivity : AppCompatActivity() {
 
             startActivity(intent)
             finish()
+        }
+
+        // resetBtn 누르면 모든 질문 및 답안, 출제자 이름 초기화
+        binding.resetBtn.setOnClickListener {
+            // 출제자 이름 초기화
+            binding.creatorName.setText("")
+
+            // 질문 및 답안 초기화
+            questionList.forEach { question ->
+                question.question     = ""
+                question.option_one   = ""
+                question.option_two   = ""
+                question.option_three = ""
+                question.answer = 0
+            }
+
+            // RecyclerView 업데이트
+            questionAdapter.notifyDataSetChanged()
+
+            Toast.makeText(this, "초기화되었습니다.", Toast.LENGTH_SHORT).show()
         }
 
     }
