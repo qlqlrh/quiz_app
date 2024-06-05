@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <EditText
+        android:id="@+id/questionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:hint="질문을 입력하세요."/>
+
+    <EditText
+        android:id="@+id/option1Text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/option_background"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:hint="선택지 1 내용을 입력하세요."/>
+
+    <EditText
+        android:id="@+id/option2Text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/option_background"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:hint="선택지 2 내용을 입력하세요."/>
+
+    <EditText
+        android:id="@+id/option3Text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/option_background"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:hint="선택지 3 내용을 입력하세요."/>
+
+    <EditText
+        android:id="@+id/answerText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/option_background"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:inputType="number"
+        android:hint="답의 번호를 입력하세요."/>
+</LinearLayout>
