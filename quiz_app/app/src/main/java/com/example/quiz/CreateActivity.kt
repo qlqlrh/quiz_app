@@ -41,6 +41,17 @@ class CreateActivity : AppCompatActivity() {
 
         // 각 질문을 데이터베이스에 추가
         binding.submitBtn.setOnClickListener {
+            // 모든 질문과 답안이 입력되었는지 확인
+            val allQuestionsFilled = questionList.all { question ->
+                question.question.isNotBlank() && question.option_one.isNotBlank() &&
+                        question.option_two.isNotBlank() && question.option_three.isNotBlank()
+            }
+
+            if (!allQuestionsFilled) {
+                Toast.makeText(this, "모든 질문과 답안을 입력하세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             // CoroutineScope(Dispatchers.Main).launch를 사용해서 코루틴을 시작
             // Dispatchers.Main을 사용해서 UI 작업을 처리하기 위해 메인 스레드에서 코루틴 실행
             CoroutineScope(Dispatchers.Main).launch {
@@ -59,10 +70,16 @@ class CreateActivity : AppCompatActivity() {
 
         // mainBtn 누르면 MainActivity로 이동
         binding.mainBtn.setOnClickListener {
-            val intent = Intent(this@CreateActivity, MainActivity::class.java)
-
             // CreateActivity에서 출제자 이름을 가져와서 MainActivity로 전달
             val creatorName = binding.inputName.text.toString()
+
+            if (creatorName.isBlank()) {
+                Toast.makeText(this, "출제자의 이름을 작성해주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val intent = Intent(this@CreateActivity, MainActivity::class.java)
+
             println("CreateActivity : " + creatorName)
             intent.putExtra("creator_name", creatorName)
 
