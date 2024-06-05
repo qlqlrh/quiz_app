@@ -7,6 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.quiz.adapter.QuestionAdapter
 import com.example.quiz.databinding.ActivityCreateBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 
 class CreateActivity : AppCompatActivity() {
@@ -37,11 +41,18 @@ class CreateActivity : AppCompatActivity() {
 
         // 각 질문을 데이터베이스에 추가
         binding.submitBtn.setOnClickListener {
-            questionList.forEach { question ->
-                dao.add(question)?.addOnSuccessListener {
-                    Toast.makeText(this, "질문 ${question.id} 등록 성공", Toast.LENGTH_SHORT).show()
-                }?.addOnFailureListener {
-                    Toast.makeText(this, "질문 ${question.id} 등록 실패: ${it.message}", Toast.LENGTH_SHORT).show()
+            // CoroutineScope(Dispatchers.Main).launch를 사용해서 코루틴을 시작
+            // Dispatchers.Main을 사용해서 UI 작업을 처리하기 위해 메인 스레드에서 코루틴 실행
+            CoroutineScope(Dispatchers.Main).launch {
+                questionList.forEach { question ->
+                    try {
+                        // dao.add(question)?.await()를 사용해서 Firebase 작업을 중단 가능한 suspend 함수로 변환 (코루틴 사용)
+                        // task가 완료될 때까지 중단하고, 결과를 반환
+                        dao.add(question)?.await()
+                        Toast.makeText(this@CreateActivity, "질문 ${question.id} 등록 성공", Toast.LENGTH_SHORT).show()
+                    } catch (e: Exception) {
+                        Toast.makeText(this@CreateActivity, "질문 ${question.id} 등록 실패: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
