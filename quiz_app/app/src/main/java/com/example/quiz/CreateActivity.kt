@@ -40,14 +40,12 @@ class CreateActivity : AppCompatActivity() {
 
         // 각 질문을 데이터베이스에 추가
         binding.submitBtn.setOnClickListener {
-            // 모든 질문과 답안이 입력되었는지 확인
-            val allQuestionsFilled = questionList.all { question ->
-                question.question.isNotBlank() && question.option_one.isNotBlank() &&
-                        question.option_two.isNotBlank() && question.option_three.isNotBlank()
-            }
+            
+            // 출제자 이름이 입력되었는지 확인
+            val creatorName = binding.creatorName.text.toString()
 
-            if (!allQuestionsFilled) {
-                Toast.makeText(this, "모든 질문과 답안을 입력하세요.", Toast.LENGTH_SHORT).show()
+            if (creatorName.isBlank()) {
+                Toast.makeText(this, "출제자의 이름을 작성해주세요.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -63,6 +61,15 @@ class CreateActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
+                        // 모든 질문과 답안이 입력되었는지 확인
+                        val allQuestionsFilled = questionList.all { question ->
+                            question.question.isNotBlank() && question.option_one.isNotBlank() &&
+                                    question.option_two.isNotBlank() && question.option_three.isNotBlank()
+                        }
+
+                        if (!allQuestionsFilled) {
+                            Toast.makeText(this@CreateActivity, "모든 질문과 답안을 입력하세요.", Toast.LENGTH_SHORT).show()
+                        } else {
                         questionList.forEach { question ->
                             CoroutineScope(Dispatchers.IO).launch {
                                 try {
@@ -75,6 +82,13 @@ class CreateActivity : AppCompatActivity() {
                                             "질문 ${question.id} 등록 성공",
                                             Toast.LENGTH_SHORT
                                         ).show()
+
+                                        // 성공적으로 등록되면 MainActivity로 이동
+                                        val intent =
+                                            Intent(this@CreateActivity, MainActivity::class.java)
+                                        intent.putExtra("creator_name", creatorName)
+                                        startActivity(intent)
+                                        finish()
                                     }
                                 } catch (e: Exception) {
                                     launch(Dispatchers.Main) {
@@ -86,6 +100,7 @@ class CreateActivity : AppCompatActivity() {
                                     }
                                 }
                             }
+                            }
                         }
                     }
                 }
@@ -93,19 +108,7 @@ class CreateActivity : AppCompatActivity() {
 
             // mainBtn 누르면 MainActivity로 이동
             binding.mainBtn.setOnClickListener {
-                // CreateActivity에서 출제자 이름을 가져와서 MainActivity로 전달
-                val creatorName = binding.creatorName.text.toString()
-
-                if (creatorName.isBlank()) {
-                    Toast.makeText(this, "출제자의 이름을 작성해주세요.", Toast.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
-
                 val intent = Intent(this@CreateActivity, MainActivity::class.java)
-
-                println("CreateActivity : " + creatorName)
-                intent.putExtra("creator_name", creatorName)
-
                 startActivity(intent)
                 finish()
             }
