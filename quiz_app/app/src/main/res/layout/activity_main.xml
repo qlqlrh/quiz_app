@@ -8,22 +8,6 @@
     android:background="#F3F2DD"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_margin="10dp">
-        <TextView
-            android:id="@+id/creatorNameTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="출제자: ???"
-            android:layout_margin="16dp"
-            android:textStyle="bold"
-            android:textColor="#27272A"
-            android:textSize="30dp"/>
-    </LinearLayout>
-
     <Button
         android:id="@+id/createBtn"
         android:layout_width="match_parent"

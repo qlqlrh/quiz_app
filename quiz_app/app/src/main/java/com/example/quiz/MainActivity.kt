@@ -8,7 +8,7 @@ import com.google.firebase.FirebaseApp
 
 class MainActivity : AppCompatActivity() {
 
-    // binding을 사용하면  findById 없이 바로 id에 접근 가능
+    // binding을 사용하면 findById 없이 바로 id에 접근 가능
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,17 +31,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, TestActivity::class.java)
             startActivity(intent)
             finish()
-        }
-    }
-
-    // intent를 사용해서 받아온 출제자의 이름을 Main에서 띄우기
-    override fun onResume() {
-        super.onResume()
-        // Intent로부터 데이터 수신
-        val creatorName = intent.getStringExtra("creator_name")
-        println("MainActivity : $creatorName")
-        if (creatorName != null) {
-            binding.creatorNameTextView.text = "출제자: $creatorName"
         }
     }
 }

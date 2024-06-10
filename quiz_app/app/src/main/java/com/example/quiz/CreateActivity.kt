@@ -40,7 +40,7 @@ class CreateActivity : AppCompatActivity() {
 
         // 각 질문을 데이터베이스에 추가
         binding.submitBtn.setOnClickListener {
-            
+
             // 출제자 이름이 입력되었는지 확인
             val creatorName = binding.creatorName.text.toString()
 
@@ -68,71 +68,77 @@ class CreateActivity : AppCompatActivity() {
                         }
 
                         if (!allQuestionsFilled) {
-                            Toast.makeText(this@CreateActivity, "모든 질문과 답안을 입력하세요.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@CreateActivity,
+                                "모든 질문과 답안을 입력하세요.",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         } else {
-                        questionList.forEach { question ->
-                            CoroutineScope(Dispatchers.IO).launch {
-                                try {
-                                    // dao.add(question)를 사용해서 Firebase 작업을 중단 가능한 suspend 함수로 변환 (코루틴 사용)
-                                    // task가 완료될 때까지 중단하고, 결과를 반환
-                                    dao.add(question)
-                                    launch(Dispatchers.Main) {
-                                        Toast.makeText(
-                                            this@CreateActivity,
-                                            "질문 ${question.id} 등록 성공",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                            questionList.forEach { question ->
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    try {
+                                        // dao.add(question)를 사용해서 Firebase 작업을 중단 가능한 suspend 함수로 변환 (코루틴 사용)
+                                        // task가 완료될 때까지 중단하고, 결과를 반환
+                                        dao.add(question)
+                                        launch(Dispatchers.Main) {
+                                            Toast.makeText(
+                                                this@CreateActivity,
+                                                "질문 ${question.id} 등록 성공",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
 
-                                        // 성공적으로 등록되면 MainActivity로 이동
-                                        val intent =
-                                            Intent(this@CreateActivity, MainActivity::class.java)
-                                        intent.putExtra("creator_name", creatorName)
-                                        startActivity(intent)
-                                        finish()
-                                    }
-                                } catch (e: Exception) {
-                                    launch(Dispatchers.Main) {
-                                        Toast.makeText(
-                                            this@CreateActivity,
-                                            "질문 ${question.id} 등록 실패: ${e.message}",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                            // 성공적으로 등록되면 MainActivity로 이동
+                                            val intent =
+                                                Intent(
+                                                    this@CreateActivity,
+                                                    MainActivity::class.java
+                                                )
+                                            intent.putExtra("creator_name", creatorName)
+                                            startActivity(intent)
+                                            finish()
+                                        }
+                                    } catch (e: Exception) {
+                                        launch(Dispatchers.Main) {
+                                            Toast.makeText(
+                                                this@CreateActivity,
+                                                "질문 ${question.id} 등록 실패: ${e.message}",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
                                     }
                                 }
-                            }
                             }
                         }
                     }
                 }
             }
+        }
 
-            // mainBtn 누르면 MainActivity로 이동
-            binding.mainBtn.setOnClickListener {
-                val intent = Intent(this@CreateActivity, MainActivity::class.java)
-                startActivity(intent)
-                finish()
+        // mainBtn 누르면 MainActivity로 이동
+        binding.mainBtn.setOnClickListener {
+            val intent = Intent(this@CreateActivity, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        // resetBtn 누르면 모든 질문 및 답안, 출제자 이름 초기화
+        binding.resetBtn.setOnClickListener {
+            // 출제자 이름 초기화
+            binding.creatorName.setText("")
+
+            // 질문 및 답안 초기화
+            questionList.forEach { question ->
+                question.question = ""
+                question.option_one = ""
+                question.option_two = ""
+                question.option_three = ""
+                question.answer = 0
             }
 
-            // resetBtn 누르면 모든 질문 및 답안, 출제자 이름 초기화
-            binding.resetBtn.setOnClickListener {
-                // 출제자 이름 초기화
-                binding.creatorName.setText("")
+            // RecyclerView 업데이트
+            questionAdapter.notifyDataSetChanged()
 
-                // 질문 및 답안 초기화
-                questionList.forEach { question ->
-                    question.question = ""
-                    question.option_one = ""
-                    question.option_two = ""
-                    question.option_three = ""
-                    question.answer = 0
-                }
-
-                // RecyclerView 업데이트
-                questionAdapter.notifyDataSetChanged()
-
-                Toast.makeText(this, "초기화되었습니다.", Toast.LENGTH_SHORT).show()
-            }
-
+            Toast.makeText(this, "초기화되었습니다.", Toast.LENGTH_SHORT).show()
         }
     }
 }
