@@ -9,13 +9,28 @@
     android:background="#F3F2DD"
     tools:context=".TestActivity">
 
+    <EditText
+        android:id="@+id/participantNameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="이름을 입력하세요"
+        android:padding="16dp"
+        android:textSize="18sp" />
+
     <TextView
         android:id="@+id/creatorNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="출제자: "
         android:textSize="20sp"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginTop="20dp" />
+
+    <LinearLayout
+        android:id="@+id/creatorButtonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewQuestions"
@@ -28,6 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="완료"
+        android:textColor="@android:color/black"
         android:layout_gravity="center"
         android:layout_marginTop="20dp" />
 </LinearLayout>

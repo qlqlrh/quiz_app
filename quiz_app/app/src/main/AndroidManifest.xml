@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".CreateActivity"/>
         <activity android:name=".TestActivity"/>
+        <activity android:name=".ScoreActivity"/>
     </application>
 
 </manifest>

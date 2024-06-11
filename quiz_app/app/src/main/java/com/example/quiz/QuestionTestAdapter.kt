@@ -1,13 +1,15 @@
 package com.example.quiz
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.quiz.Question
 import com.example.quiz.databinding.ItemQuestionTestBinding
 
 class QuestionTestAdapter(private val questionList: List<Question>) :
     RecyclerView.Adapter<QuestionTestAdapter.QuestionViewHolder>() {
+
+    private val selectedAnswers = mutableMapOf<Int, Int>()
 
     inner class QuestionViewHolder(private val binding: ItemQuestionTestBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -16,13 +18,24 @@ class QuestionTestAdapter(private val questionList: List<Question>) :
             binding.optionOne.text = question.option_one
             binding.optionTwo.text = question.option_two
             binding.optionThree.text = question.option_three
-//
-//            // 각 선택지에 대해 클릭 리스너 설정
-//            binding.optionOne.setOnClickListener {
-//
-//            }
-//            binding.optionTwo.setOnClickListener(this)
-//            binding.optionThree.setOnClickListener(this)
+
+            val options = listOf(binding.optionOne, binding.optionTwo, binding.optionThree)
+            options.forEachIndexed { index, option ->
+                option.setOnClickListener {
+                    selectedAnswers[adapterPosition] = index + 1
+                    updateOptionColors(index + 1, options)
+                }
+            }
+        }
+
+        private fun updateOptionColors(selectedOption: Int, options: List<View>) {
+            options.forEachIndexed { index, option ->
+                if (index + 1 == selectedOption) {
+                    option.setBackgroundColor(itemView.context.getColor(R.color.selectedOptionColor))
+                } else {
+                    option.setBackgroundColor(itemView.context.getColor(R.color.defaultOptionColor))
+                }
+            }
         }
     }
 
@@ -37,5 +50,9 @@ class QuestionTestAdapter(private val questionList: List<Question>) :
 
     override fun getItemCount(): Int {
         return questionList.size
+    }
+
+    fun getSelectedAnswers(): Map<Int, Int> {
+        return selectedAnswers
     }
 }
